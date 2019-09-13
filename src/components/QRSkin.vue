@@ -1,10 +1,5 @@
 <template>
-    <div @click="save">
-        <canvas ref="canv" height="300" width="300"></canvas>
-        <q-tooltip anchor="top middle" self="bottom middle"
-            >Download Skin #{{  }}</q-tooltip
-        >
-    </div>
+    <canvas ref="canv" height="300" width="300"></canvas>
 </template>
 
 <script>
@@ -21,17 +16,17 @@ export default {
             output: ""
         };
     },
-    props: ["skin"],
+    props: ["skin", "url"],
     watch: {
         skin() {
-            this.init();
+            this.$nextTick(this.init);
         }
     },
     methods: {
         async init() {
             var canvas = this.$refs.canv;
             var ctx = canvas.getContext("2d");
-            var x = skins.find(i=>i.SkinID==this.skin);
+            var x = skins.find(i=>i.SkinID==(this.skin||1));
 
             var skinData = await axios
                 .get(
@@ -55,7 +50,7 @@ export default {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(skin, 0, 0, skin.width, skin.height);
             this.qrcode = await QRCode.toDataURL(
-                "https://www.munzee.com/m/sohcah/1363/2K8LP4/",
+                this.url?`https://www.munzee.com/m/${this.url[0]}/${this.url[1]}/${this.url[2]}/`:"https://www.munzee.com/m/sohcah/1363/2K8LP4/",
                 {
                     width: x.QRSize,
                     margin: 0,
@@ -98,6 +93,9 @@ export default {
         this.$nextTick(this.init);
     },
     mounted() {
+        this.$nextTick(this.init);
+    },
+    created() {
         this.$nextTick(this.init);
     },
     activated() {

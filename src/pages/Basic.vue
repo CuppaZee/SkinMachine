@@ -63,17 +63,23 @@
         icon="format_paint"
         :done="step > 2"
       >
-        <div class="row" style="max-height:500px;overflow-y:auto;">
+        <div class="row" style="max-height:calc(100vh - 318px);overflow-y:auto;">
           <div v-for="(s,i) in skins.filter(x=>{
-            var y = category.length>0?false:true;
+            var y = true;
             for(var q = 0;q < category.length;q++){
-              if(x.Categories.includes(category[q].CategoryID)) y=true;
+              if(!x.Categories.includes(category[q].CategoryID)) y=false;
             }
             return y;
           })" :key="i" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row" style="padding:8px">
-            <q-card class="col-12" :class="{'bg-grey-10':$store.state.DB.dark&&s.SkinID!=skin,'bg-blue':s.SkinID==skin}" v-ripple @click="skin=s.SkinID;">
+            <q-card class="col-12" :class="{'bg-grey-10':$store.state.DB.dark&&s.SkinID!=skin,'bg-grey-8':s.SkinID==skin&&$store.state.DB.dark,'bg-green-1':s.SkinID==skin&&!$store.state.DB.dark}" v-ripple @click="skin=s.SkinID;">
               <q-card-section style="padding:8px;" class="text-center">
                 <img style="width:auto;margin-bottom:-6px;" :src="`/statics/Skins/${s.SkinOwner}/${s.FileName}_tn.${s.FileExt}`"/>
+                <div style="font-weight:bold;">
+                  {{s.SkinName}} by
+                  <span :class="$store.state.DB.dark?`text-light-blue-3`:`text-light-blue-14`">{{s.SkinOwner}}</span>
+                </div>
+                <div :class="$store.state.DB.dark?'text-grey-4':'text-grey-8'">{{s.SkinDesc}}</div>
+                <div :class="$store.state.DB.dark?'text-grey-5':'text-grey-8'" style="font-size:0.8em;">Added: {{new Date(s.CreateDate).toLocaleDateString()}}</div>
               </q-card-section>
               <!-- {{s}} -->
             </q-card>
@@ -91,8 +97,13 @@
         title="Insert Munzees"
         icon="list"
       >
+        <QRSkin :skin="skin" style="height:300px;"/>
+
         <q-input
           v-model="munzees"
+          label="Munzee QR URLs"
+          stack-label
+          color="green"
           outlined
           :dark="$store.state.DB.dark"
           dense
@@ -104,7 +115,7 @@
         </div>
 
         <q-stepper-navigation>
-          <q-btn :disable="munzees.split('\n').findIndex(i=>i&&!i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/[^/]+\/\d+\/[A-z0-9]{6}(?:\/)?/))!=-1" color="green" label="Generate" />
+          <q-btn :to="url" :disable="munzees.split('\n').filter(i=>i).length==0||munzees.split('\n').findIndex(i=>i&&!i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/[^/]+\/\d+\/[A-z0-9]{6}(?:\/)?/))!=-1" color="green" label="Generate" />
           <q-btn flat @click="step = 2" color="green" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
@@ -115,7 +126,7 @@
 <script>
 import Categories from "assets/Categories"
 import Skins from "assets/Skins"
-// import QRSkin from "components/QRSkin"
+import QRSkin from "components/QRSkin"
 
 export default {
   data() {
@@ -128,8 +139,13 @@ export default {
       munzees: ''
     }
   },
+  computed: {
+    url () {
+      return `/generate/${this.skin}/${this.munzees.split('\n').filter(i=>i).map(i=>i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/([^/]+)\/(\d+)\/([A-z0-9]{6})(?:\/)?/).slice(1, 4).join('|')).join(',')}`
+    }
+  },
   components: {
-    // QRSkin
+    QRSkin
   }
 }
 </script>

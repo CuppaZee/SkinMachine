@@ -13,6 +13,13 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Basic.vue') }
     ]
+  },
+  {
+    path: '/generate/:skin/:munzees',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Generate.vue') }
+    ]
   }
 ]
 

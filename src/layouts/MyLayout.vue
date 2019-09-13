@@ -51,6 +51,16 @@
             <q-item-label>Source Code</q-item-label>
           </q-item-section>
         </q-item>
+        <p style="padding-left:4px;padding-right:4px;">
+          <b><q-icon name="lock"/> PRIVACY</b><br>
+          All processing is done on your device.<br>Your Munzee URLs, Secret Codes and Skins will <b style="text-decoration:underline;">never</b> leave your device!
+        </p>
+        <p style="padding-left:4px;padding-right:4px;">
+          <b><q-icon name="close"/> Missing Features</b><br>
+          We currently only support <b>Basic</b> pre-made skins. Custom skins will be supported soon. You can submit your skins at mail@cuppazee.uk.<br>
+          We currently do not support "Deployed by" texts on pre-made skins. This will be added soon.<br>
+          We currently cannot generate PDFs. This will be coming soon.
+        </p>
       </q-list>
     </q-drawer>
 
