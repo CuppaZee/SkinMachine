@@ -43,6 +43,14 @@
             <q-item-label>Switch to {{$store.state.DB.dark?'Light':'Dark'}} Mode</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable tag="a" href="https://github.com/CuppaZee/SkinMachine">
+          <q-item-section avatar>
+            <q-icon :name="`img:https://img.icons8.com/material-outlined/24/${$store.state.DB.dark?'ffffff':'000000'}/github.png`" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Source Code</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
