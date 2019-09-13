@@ -61,6 +61,13 @@
           We currently do not support "Deployed by" texts on pre-made skins. This will be added soon.<br>
           We currently cannot generate PDFs. This will be coming soon.
         </p>
+        <p style="padding-left:4px;padding-right:4px;">
+          <b><q-icon name="person"/> Credits</b><br>
+          Created by sohcah.<br>
+          Idea from the original Munzee Skin Machine by thejoker.<br>
+          Code Inspiration from ZeePrinter Web App by Brilang.<br>
+          Skin Designers are credited separately.
+        </p>
       </q-list>
     </q-drawer>
 
