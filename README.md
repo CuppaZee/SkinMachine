@@ -1,2 +1,26 @@
-# SkinMachine
-Rewrite of the original [Munzee Skin Machine](http://munzeeskinmachine.com) in Vue.JS/Quasar.
+# CuppaZee Skin Machine (skinmachine)
+
+Replacement for the original **Munzee Skin Machine** by thejoker
+
+## Install the dependencies
+```bash
+npm install
+```
+
+### Start the app in development mode (hot-code reloading, error reporting, etc.)
+```bash
+quasar dev
+```
+
+### Lint the files
+```bash
+npm run lint
+```
+
+### Build the app for production
+```bash
+quasar build
+```
+
+### Customize the configuration
+See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
