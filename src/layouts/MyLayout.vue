@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout :class="$store.state.DB.dark?'bg-grey-9':'bg-white'" view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar :class="$store.state.DB.dark?'bg-grey-10':'bg-green'">
         <q-btn
           flat
           dense
@@ -13,10 +13,10 @@
         </q-btn>
 
         <q-toolbar-title>
-          Quasar App
+          CuppaZee Skin Machine
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>v0.0.1</div>
       </q-toolbar>
     </q-header>
 
@@ -24,62 +24,23 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-2"
+      :content-class="$store.state.DB.dark?'bg-grey-10':'bg-grey-2'"
     >
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
+      <q-list :dark="$store.state.DB.dark">
+        <q-item clickable tag="a" href="https://cuppazee.uk/">
           <q-item-section avatar>
-            <q-icon name="school" />
+            <q-icon :name="`img:https://img.icons8.com/material-outlined/24/${$store.state.DB.dark?'ffffff':'000000'}/exit-sign.png`" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
+            <q-item-label>Return to CuppaZee</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.quasar.dev">
+        <q-item clickable tag="a" @click="dark">
           <q-item-section avatar>
-            <q-icon name="code" />
+            <q-icon :name="`img:https://img.icons8.com/material-outlined/24/${$store.state.DB.dark?'ffffff':'000000'}/${$store.state.DB.dark?'summer':'moon'}.png`" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="chat" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="record_voice_over" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="rss_feed" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://facebook.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="public" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Facebook</q-item-label>
-            <q-item-label caption>@QuasarFramework</q-item-label>
+            <q-item-label>Switch to {{$store.state.DB.dark?'Light':'Dark'}} Mode</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -102,7 +63,15 @@ export default {
     }
   },
   methods: {
-    openURL
+    openURL,
+    dark () {
+      if (this.$store.state.DB.dark) {
+        delete localStorage.dark
+      } else {
+        localStorage.dark = 'true'
+      }
+      location.reload()
+    }
   }
 }
 </script>

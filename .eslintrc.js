@@ -46,6 +46,15 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
+    
+    'quotes': 'off',
+    'semi': 'off',
+    'indent': 'off',
+    'space-before-function-paren': 'off',
+    'new-cap': 'off',
+    'arrow-spacing': 'off',
+    'eqeqeq': 'off',
+    'space-infix-ops': 'off',
 
     // allow console.log during development only
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

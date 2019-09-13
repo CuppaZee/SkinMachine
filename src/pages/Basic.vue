@@ -1,0 +1,138 @@
+<template>
+  <q-page>
+    <q-stepper
+      style="border:0;box-shadow:none;"
+      :class="{'bg-grey-9':$store.state.DB.dark}"
+      v-model="step"
+      vertical
+      :dark="$store.state.DB.dark"
+      :active-color="'green'"
+      :done-color="'green'"
+      :color="$store.state.DB.dark?'grey-10':'green'"
+      animated
+    >
+      <q-step
+        :name="1"
+        title="Select Categories"
+        icon="book"
+        :done="step > 1"
+      >
+        Selecting nothing will show all skins.
+        <q-select
+          :dark="$store.state.DB.dark"
+          outlined
+          v-model="category"
+          :options="categories"
+          multiple
+          :color="$store.state.DB.dark?'green-8':'black'"
+          use-chips
+          option-value="CategoryID"
+          option-label="CategoryName"
+          :options-dark="$store.state.DB.dark"
+          options-selected-class="text-green"
+        >
+          <template v-slot:option="scope">
+            <q-item
+              v-bind="scope.itemProps"
+              v-on="scope.itemEvents"
+            >
+              <q-item-section>
+                <q-item-label v-html="scope.opt.CategoryName" />
+                <q-item-label caption>{{ scope.opt.CategoryDesc }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+          <template v-slot:append>
+            <q-icon
+              v-if="category.length"
+              class="cursor-pointer"
+              name="clear"
+              @click.stop="category=[]"
+            />
+          </template>
+        </q-select>
+
+        <q-stepper-navigation>
+          <q-btn @click="step = 2" color="green" label="Continue" />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step
+        :name="2"
+        title="Select a Skin"
+        icon="format_paint"
+        :done="step > 2"
+      >
+        <div class="row" style="max-height:500px;overflow-y:auto;">
+          <div v-for="(s,i) in skins.filter(x=>{
+            var y = category.length>0?false:true;
+            for(var q = 0;q < category.length;q++){
+              if(x.Categories.includes(category[q].CategoryID)) y=true;
+            }
+            return y;
+          })" :key="i" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row" style="padding:8px">
+            <q-card class="col-12" :class="{'bg-grey-10':$store.state.DB.dark&&s.SkinID!=skin,'bg-blue':s.SkinID==skin}" v-ripple @click="skin=s.SkinID;">
+              <q-card-section style="padding:8px;" class="text-center">
+                <img style="width:auto;margin-bottom:-6px;" :src="`/statics/Skins/${s.SkinOwner}/${s.FileName}_tn.${s.FileExt}`"/>
+              </q-card-section>
+              <!-- {{s}} -->
+            </q-card>
+          </div>
+        </div>
+
+        <q-stepper-navigation>
+          <q-btn :disable="!skin" @click="step = 3" color="green" label="Continue" />
+          <q-btn flat @click="step = 1" color="green" label="Back" class="q-ml-sm" />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step
+        :name="3"
+        title="Insert Munzees"
+        icon="list"
+      >
+        <q-input
+          v-model="munzees"
+          outlined
+          :dark="$store.state.DB.dark"
+          dense
+          autogrow
+        />
+
+        <div class="text-red" v-if="munzees.split('\n').findIndex(i=>i&&!i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/[^/]+\/\d+\/[A-z0-9]{6}(?:\/)?/))!=-1">
+          Invalid Munzee on Line {{munzees.split('\n').findIndex(i=>i&&!i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/[^/]+\/\d+\/[A-z0-9]{6}(?:\/)?/))+1}}
+        </div>
+
+        <q-stepper-navigation>
+          <q-btn :disable="munzees.split('\n').findIndex(i=>i&&!i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/[^/]+\/\d+\/[A-z0-9]{6}(?:\/)?/))!=-1" color="green" label="Generate" />
+          <q-btn flat @click="step = 2" color="green" label="Back" class="q-ml-sm" />
+        </q-stepper-navigation>
+      </q-step>
+    </q-stepper>
+  </q-page>
+</template>
+
+<script>
+import Categories from "assets/Categories"
+import Skins from "assets/Skins"
+// import QRSkin from "components/QRSkin"
+
+export default {
+  data() {
+    return {
+      step: 1,
+      category: [],
+      categories: Categories,
+      skin: '',
+      skins: Skins,
+      munzees: ''
+    }
+  },
+  components: {
+    // QRSkin
+  }
+}
+</script>
+
+<style>
+</style>
