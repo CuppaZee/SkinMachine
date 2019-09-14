@@ -63,14 +63,32 @@
         icon="format_paint"
         :done="step > 2"
       >
-        <div class="row" style="max-height:calc(100vh - 318px);overflow-y:auto;">
+        <q-input
+          v-model="search"
+          label="Search"
+          stack-label
+          color="green"
+          class="full-width"
+          outlined
+          :dark="$store.state.DB.dark"
+          dense
+        />
+        <div class="row" style="max-height:calc(100vh - 318px - 40px);overflow-y:auto;">
           <div v-for="(s,i) in skins.filter(x=>{
             var y = true;
             for(var q = 0;q < category.length;q++){
               if(!x.Categories.includes(category[q].CategoryID)) y=false;
             }
             return y;
-          })" :key="i" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row" style="padding:8px">
+          }).slice().sort((a,b)=>{
+            if (favs.includes(a.SkinID)&&favs.includes(b.SkinID)) {
+              return 0;
+            } else if (favs.includes(a.SkinID)) {
+              return -1;
+            } else {
+              return 1;
+            }
+          }).filter(i=>`$$$${i.SkinName} by ${i.SkinOwner}||${i.SkinDesc}^^^`.toLowerCase().includes(search.toLowerCase()))" :key="i" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row" style="padding:8px">
             <q-card class="col-12" :class="{'bg-grey-10':$store.state.DB.dark&&s.SkinID!=skin,'bg-grey-8':s.SkinID==skin&&$store.state.DB.dark,'bg-green-1':s.SkinID==skin&&!$store.state.DB.dark}" v-ripple @click="skin=s.SkinID;">
               <q-card-section style="padding:8px;" class="text-center">
                 <img style="width:auto;margin-bottom:-6px;" :src="`/statics/Skins/${s.SkinOwner}/${s.FileName}_tn.${s.FileExt}`"/>
@@ -78,6 +96,7 @@
                   {{s.SkinName}} by
                   <span :class="$store.state.DB.dark?`text-light-blue-3`:`text-light-blue-14`">{{s.SkinOwner}}</span>
                 </div>
+                <q-btn class="absolute-top-right" @click="addFav(s.SkinID)" flat round :icon="`img:https://img.icons8.com/material${favs.includes(s.SkinID)?'':'-outlined'}/24/${favs.includes(s.SkinID)?'ff0000':'d3d3d3'}/like.png`" />
                 <div :class="$store.state.DB.dark?'text-grey-4':'text-grey-8'">{{s.SkinDesc}}</div>
                 <div :class="$store.state.DB.dark?'text-grey-5':'text-grey-8'" style="font-size:0.8em;">Added: {{new Date(s.CreateDate).toLocaleDateString()}}</div>
               </q-card-section>
@@ -136,12 +155,21 @@ export default {
       categories: Categories,
       skin: '',
       skins: Skins,
-      munzees: ''
+      munzees: '',
+      search: 'gold'
     }
   },
   computed: {
     url () {
-      return `/generate/${this.skin}/${this.munzees.split('\n').filter(i=>i).map(i=>i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/([^/]+)\/(\d+)\/([A-z0-9]{6})(?:\/)?/).slice(1, 4).join('|')).join(',')}`
+      return `/generate/${this.skin}/${this.munzees.split('\n').filter(i=>i).map(i=>(i.match(/http(?:s)?:\/\/(?:www\.)?munzee.com\/m\/([^/]+)\/(\d+)\/([A-z0-9]{6})(?:\/)?/)||[]).slice(1, 4).join('|')).join(',')}`
+    },
+    favs () {
+      return this.$store.state.DB.favs||[];
+    }
+  },
+  methods: {
+    addFav (id) {
+      this.$store.commit('DB/addFav', id);
     }
   },
   components: {
