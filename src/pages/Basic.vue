@@ -156,7 +156,7 @@ export default {
       skin: '',
       skins: Skins,
       munzees: '',
-      search: 'gold'
+      search: ''
     }
   },
   computed: {
