@@ -52,7 +52,10 @@ module.exports = function (ctx) {
         'QCard',
         'QCardActions',
         'QCardSection',
-        'QInput'
+        'QInput',
+        'QSpinnerBall',
+        'QInnerLoading',
+        'QPageSticky'
       ],
 
       directives: [

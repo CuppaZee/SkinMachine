@@ -8,10 +8,10 @@ const routes = [
     ]
   },
   {
-    path: '/basic',
+    path: '/upload',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Basic.vue') }
+      { path: '', component: () => import('pages/Upload.vue') }
     ]
   },
   {
