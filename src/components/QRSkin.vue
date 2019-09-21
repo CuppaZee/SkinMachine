@@ -90,11 +90,18 @@ export default {
                 var qr = await createImg(this.qrcode);
                 ctx.drawImage(
                     qr,
-                    { minizee: 54, rum: 258 }[template],
-                    { minizee: 54, rum: 8 }[template],
-                    { minizee: 142, rum: 234 }[template],
-                    { minizee: 142, rum: 234 }[template]
+                    { minizee: 54, rum: 258 + 24 }[template],
+                    { minizee: 54, rum: 32 }[template],
+                    { minizee: 142, rum: 234 - 48 }[template],
+                    { minizee: 142, rum: 234 - 48 }[template]
                 );
+                ctx.textAlign = 'left';
+                ctx.font = "bold 20px Roboto";
+                var size = ctx.measureText(`${(this.url||['sohcah', 1363])[1]}`);
+                ctx.fillStyle="white"
+                ctx.fillRect({ minizee: 54, rum: 258 + 24 }[template] + 2, { minizee: 54, rum: 32 }[template] + { minizee: 142, rum: 234 - 48 }[template]+2, size.width+4, 20)
+                ctx.fillStyle = "black";
+                ctx.fillText(`${(this.url||['sohcah', 1363])[1]}`, { minizee: 54, rum: 258 + 24 }[template], { minizee: 54, rum: 32 }[template] + { minizee: 142, rum: 234 - 48 }[template] + 18);
             } else {
                 if ((this.skin||1).toString().startsWith('custom:')) {
                     x = await lf.getItem((this.skin||1).toString());
@@ -143,6 +150,19 @@ export default {
                     x.QRSize,
                     x.QRSize
                 );
+                ctx.textAlign = 'left';
+                ctx.fillStyle = "black";
+                ctx.font = "30px Roboto";
+                ctx.fillText(`${(this.url||['sohcah', 1363])[1]}`, x.QROffsetX, x.QROffsetY + x.QRSize + 30);
+                if (x.DeployedBy) {
+                    ctx.font = `${x.DeployedBySize*1.5}px Roboto`;
+                    if (x.DeployedByCentered) {
+                        ctx.textAlign = 'center';
+                        ctx.fillText(`${(this.url||['sohcah', 1363])[0]}`, x.DeployedByX+(x.DeployedByWidth/2), x.DeployedByY-((x.DeployedBySize*1.5)/2));
+                    } else {
+                        ctx.fillText(`${(this.url||['sohcah', 1363])[0]}`, x.DeployedByX, x.DeployedByY);
+                    }
+                }
             }
             this.output = canvas.toDataURL();
         },
