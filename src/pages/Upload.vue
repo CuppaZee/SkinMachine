@@ -11,7 +11,7 @@
       @change="onChange">
     </picture-input>
     <q-page-sticky v-if="!hasImage" position="bottom-left" :offset="[18, 18]">
-      <q-btn @click="$router.push('/')" fab icon="close" color="red" />
+      <q-btn @click="$router.push('/custom')" fab icon="close" color="red" />
     </q-page-sticky>
     <q-inner-loading :dark="$store.state.DB.dark" :showing="loading">
       <q-spinner-ball size="50px" :color="$store.state.DB.dark?'white':'green'"/>
@@ -19,7 +19,7 @@
     <div v-if="hasImage && !editing">
       <Cropper
         ref="crop"
-        style="height: calc(100vh - 50px);"
+        style="height: calc(100vh);"
         :src="img"
         imageClassname="OPAC"
         :stencilProps="{
@@ -36,7 +36,7 @@
 
     </div>
     <div style="padding:8px;" v-if="hasImage && editing">
-      <q-input v-model="name" label="Name" stack-label dense color="green"/>
+      <q-input v-model="name" label="Name" stack-label :dark="$store.state.DB.dark" outlined color="green"/>
       <q-page-sticky position="bottom-left" :offset="[18, 18]">
         <q-btn @click="cancel()" fab icon="close" color="red" />
       </q-page-sticky>
@@ -102,7 +102,7 @@ export default {
       var key = Math.random().toString(36).substring(7)
       await lf.setItem(`custom:${key}`, { SkinID: `custom:${key}`, CreateDate: Date.now(), SkinName: this.name, Data: this.img, QROffsetX: this.coords.left, QROffsetY: this.coords.top, QRSize: this.coords.height });
       this.img = '';
-      this.$router.push('/')
+      this.$router.push('/custom')
     }
   }
 }

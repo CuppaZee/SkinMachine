@@ -55,7 +55,8 @@ module.exports = function (ctx) {
         'QInput',
         'QSpinnerBall',
         'QInnerLoading',
-        'QPageSticky'
+        'QPageSticky',
+        'QAvatar'
       ],
 
       directives: [

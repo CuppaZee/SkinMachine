@@ -1,8 +1,8 @@
 <template>
   <q-layout :class="$store.state.DB.dark?'bg-grey-9':'bg-white'" view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar :class="$store.state.DB.dark?'bg-grey-10':'bg-green'">
-        <q-btn
+    <!-- <q-header elevated>
+      <q-toolbar :class="$store.state.DB.dark?'bg-grey-10':'bg-green'"> -->
+        <!-- <q-btn
           flat
           dense
           round
@@ -10,17 +10,17 @@
           aria-label="Menu"
         >
           <q-icon name="menu" />
-        </q-btn>
+        </q-btn> -->
 
-        <q-toolbar-title>
+        <!-- <q-toolbar-title>
           CuppaZee Skin Machine
         </q-toolbar-title>
 
         <div>v0.0.1</div>
       </q-toolbar>
-    </q-header>
+    </q-header> -->
 
-    <q-drawer
+    <!-- <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -90,7 +90,7 @@
           Skin Designers are credited separately.
         </p>
       </q-list>
-    </q-drawer>
+    </q-drawer> -->
 
     <q-page-container>
       <router-view />

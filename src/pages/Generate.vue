@@ -15,7 +15,7 @@ export default {
       return this.$route.params.munzees.split(',').map(i=>i.split('|'))
     },
     skin () {
-      return this.$route.params.skin;
+      return decodeURIComponent(this.$route.params.skin);
     }
   },
   components: {

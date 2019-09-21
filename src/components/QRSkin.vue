@@ -1,4 +1,5 @@
 <template>
+    <!-- <div>{{skin}}</div> -->
     <canvas ref="canv" height="300" width="300"></canvas>
 </template>
 
@@ -8,6 +9,17 @@ import QRCode from "qrcode";
 import { saveAs } from "file-saver";
 import axios from "axios";
 import skins from "assets/Skins.json";
+
+function createImg(url) {
+    var img = new Image()
+    var prom = new Promise(function(resolve, reject) {
+        img.onload = function () {
+            resolve(img);
+        };
+    })
+    img.src = url;
+    return prom;
+}
 
 export default {
     name: "QRSkin",
@@ -29,8 +41,9 @@ export default {
             var ctx = canvas.getContext("2d");
             var x, skinData, img, skin;
             if ((this.skin||1).toString().startsWith('template:')) {
-                var imgURL = this.skin.split('/').slice(1).join('/');
-                var template = this.skin.split('/')[0].split(':')[1];
+                var imgURL = this.skin.split('|').slice(1).join('|');
+                console.log(imgURL);
+                var template = this.skin.split('|')[0].split(':')[1];
                 var imgData = await axios
                         .get(
                             imgURL,
@@ -45,8 +58,7 @@ export default {
                                     "binary"
                                 ).toString("base64")}`
                         );
-                img = new Image();
-                img.src = imgData;
+                img = await createImg(imgData);
                 skin = { height: 250, width: { minizee: 250, rum: 500 }[template] }
                 canvas.height = skin.height;
                 canvas.width = skin.width;
@@ -75,8 +87,7 @@ export default {
                         }
                     }
                 );
-                var qr = new Image();
-                qr.src = this.qrcode;
+                var qr = await createImg(this.qrcode);
                 ctx.drawImage(
                     qr,
                     { minizee: 54, rum: 258 }[template],
@@ -107,8 +118,7 @@ export default {
                                 ).toString("base64")}`
                         );
                 }
-                skin = new Image();
-                skin.src = skinData;
+                skin = await createImg(skinData);
                 canvas.height = skin.height;
                 canvas.width = skin.width;
                 ctx.fillStyle = "white";
@@ -125,8 +135,7 @@ export default {
                         }
                     }
                 );
-                img = new Image();
-                img.src = this.qrcode;
+                img = await createImg(this.qrcode);
                 ctx.drawImage(
                     img,
                     x.QROffsetX || 0,
