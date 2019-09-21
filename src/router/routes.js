@@ -43,6 +43,13 @@ const routes = [
     ]
   },
   {
+    path: '/submit',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Submit.vue') }
+    ]
+  },
+  {
     path: '/generate/:skin/:munzees',
     component: () => import('layouts/MyLayout.vue'),
     children: [
