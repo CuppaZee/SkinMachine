@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page :class="{'text-white':$store.state.DB.dark}">
     <div class="text-h4">Submit Skins</div>
     <p>
       Please send your Skins, along with Titles, Descriptions, Your Username and any other information to <a href="mailto:mail@cuppazee.uk">mail@cuppazee.uk</a>.
