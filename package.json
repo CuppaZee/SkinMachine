@@ -16,7 +16,7 @@
     "file-saver": "^2.0.2",
     "localforage": "^1.7.3",
     "qrcode": "^1.4.1",
-    "quasar": "^1.0.0",
+    "quasar": "^1.11.3",
     "vue-advanced-cropper": "^0.12.2",
     "vue-picture-input": "^2.1.6"
   },
